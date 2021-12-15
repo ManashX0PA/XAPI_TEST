@@ -6,6 +6,6 @@ export const LoginCreds = {
   },
 
   data: {
-    callTemplateId: 1,
+    calltemplateId: 1,
   }
 }

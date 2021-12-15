@@ -18,7 +18,7 @@ const Data = LoginCreds.data;
 
 
 
-describe.only('TESTING "calltemplates.js" CONTROLLER', () => {
+describe.skip('TESTING "calltemplates.js" CONTROLLER', () => {
 
 
   describe('Get All Call Templates API', () => {
@@ -146,7 +146,7 @@ describe.only('TESTING "calltemplates.js" CONTROLLER', () => {
 
   describe('Get Call Template Details API', () => {
     const rootUrl = `/calltemplates`;
-    const url = rootUrl + `/${Data.callTemplateId}`;
+    const url = rootUrl + `/${Data.calltemplateId}`;
     // positive testings
     it('get call template details', async () => {
       const res = await request.get(url)
@@ -244,7 +244,7 @@ describe.only('TESTING "calltemplates.js" CONTROLLER', () => {
 
   describe('Update Call Templates API', () => {
     const rootUrl = `/calltemplates`;
-    const url = rootUrl + `/${Data.callTemplateId}`;
+    const url = rootUrl + `/${Data.calltemplateId}`;
 
     const payload = {
       templateName: "Hired Call Template",
@@ -311,5 +311,81 @@ describe.only('TESTING "calltemplates.js" CONTROLLER', () => {
   })
 
 
+
+  describe('Delete Call Templates API', () => {
+    const rootUrl = `/calltemplates`;
+    let callTemplateId;
+    let url: string;
+
+    const payload = {
+      templateName: "Hired Call Template",
+      templateBody: "Welcome aboard!",
+      desc: "This template is for when applicants are hired.",
+    };
+
+    beforeEach(async () => {
+      const createdNewRecord = await postAPIData(request, token.adminRecruiter1, rootUrl, payload)
+      callTemplateId = createdNewRecord.calltemplateId;
+      url = rootUrl + `/${callTemplateId}`;
+    })
+
+    afterEach(async () => {
+      // delete it
+      await request.delete(url)
+        .set({ 'Authorization': token.adminRecruiter1 })
+    })
+
+    // positive testings
+    it('delete call templates', async () => {
+      const res = await request.delete(url)
+        .set({ 'Authorization': token.adminRecruiter1 })
+
+      const schema = {
+        type: "object",
+        properties: {
+          message: { type: "string"},
+        },
+        required: ["message"],
+        additionalProperties: false,
+      }
+      expect([200, 201].includes(res.status)).toBe(true);
+      expect(ajv.validate(schema, res.body)).toBe(true);
+    })
+
+    // negative testing
+    it('template does not exist', async () => {
+      const res = await request.delete(rootUrl + `/27000`)
+        .set({ 'Authorization': token.adminRecruiter1 })
+
+      expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
+      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message.search(/No call template found/i)).not.toBe(-1);
+    })
+
+    // it('can not use if not admin recruiter', async () => {
+    //   const res = await request.delete(url)
+    //     .set({ 'Authorization': token.recruiter1 })
+
+    //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
+    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
+
+    // })
+
+    it('can not use if not recruiter', async () => {
+      const res = await request.delete(url)
+        .set({ 'Authorization': token.candidate1 })
+
+      expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
+      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
+    })
+
+    it('can not use if not logged in', async () => {
+      const res = await request.delete(url)
+      expect(ajv.validate(NotLoggedInSchema, res.body)).toBe(true);
+    })
+
+  })
 
 })
