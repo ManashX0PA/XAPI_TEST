@@ -7,5 +7,7 @@ export const LoginCreds = {
 
   data: {
     calltemplateId: 1,
+    profileId: 311613,
+    personMobId: 64881,
   }
 }

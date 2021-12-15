@@ -25,6 +25,10 @@ export const randomNumber = (num: number) => {
   return Math.floor(Math.random() * num);
 };
 
+export function getRndInteger(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export const getRandomEmail: () => string = () => {
   return randomEmail({ domain: 'random.com' });
 }

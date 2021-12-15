@@ -343,7 +343,7 @@ describe.skip('TESTING "calltemplates.js" CONTROLLER', () => {
       const schema = {
         type: "object",
         properties: {
-          message: { type: "string"},
+          message: { type: "string" },
         },
         required: ["message"],
         additionalProperties: false,

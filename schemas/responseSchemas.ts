@@ -34,3 +34,18 @@ export const CallTemplateSchema = {
   required: ["calltemplateId", "templateName"],
   additionalProperties: true,
 }
+
+export const PersonMobileSchema = {
+  type: "object",
+  properties: {
+    personMobId: { type: "string" },
+    profileId: { type: "string" },
+    codeId: { type: "number" },
+    mobile: { type: "string" },
+    createTimestamp: { type: "string" },
+    updatedAt: { type: "string" },
+    isPrimary: { type: "boolean" },
+  },
+  required: ["personMobId", "profileId", "mobile"],
+  additionalProperties: true,
+}
