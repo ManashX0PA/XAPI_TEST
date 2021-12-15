@@ -160,6 +160,7 @@ describe.only('TESTING "calltemplates.js" CONTROLLER', () => {
     it('template does not exist', async () => {
       const res = await request.get(rootUrl + `/27000`)
         .set({ 'Authorization': token.adminRecruiter1 })
+
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
       expect(res.body.message).not.toBe('Invalid');
       expect(res.body.message.search(/No call template found/i)).not.toBe(-1);
@@ -168,6 +169,7 @@ describe.only('TESTING "calltemplates.js" CONTROLLER', () => {
     it('can not use if not recruiter', async () => {
       const res = await request.get(url)
         .set({ 'Authorization': token.candidate1 })
+
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
       expect(res.body.message).not.toBe('Invalid');
       expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
@@ -185,7 +187,7 @@ describe.only('TESTING "calltemplates.js" CONTROLLER', () => {
   describe('Create Call Templates API', () => {
     const url = `/calltemplates`;
     const payload = {
-      templateName: "Offered Call Template",
+      templateName: "Hired Call Template",
       templateBody: "Welcome aboard!",
       desc: "This template is for when applicants are hired.",
     };
@@ -237,5 +239,77 @@ describe.only('TESTING "calltemplates.js" CONTROLLER', () => {
     })
 
   })
+
+
+
+  describe('Update Call Templates API', () => {
+    const rootUrl = `/calltemplates`;
+    const url = rootUrl + `/${Data.callTemplateId}`;
+
+    const payload = {
+      templateName: "Hired Call Template",
+      templateBody: "Welcome aboard!",
+      desc: "This template is for when applicants are hired.",
+    };
+
+    // positive testings
+    it('update call templates', async () => {
+      const res = await request.patch(url)
+        .set({ 'Authorization': token.adminRecruiter1 })
+        .send(payload)
+
+      expect([200, 201].includes(res.status)).toBe(true);
+      expect(ajv.validate(CallTemplateSchema, res.body)).toBe(true);
+    })
+
+    // negative testing
+    it('template does not exist', async () => {
+      const res = await request.patch(rootUrl + `/27000`)
+        .set({ 'Authorization': token.adminRecruiter1 })
+
+      expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
+      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message.search(/No call template found/i)).not.toBe(-1);
+    })
+
+    it('invalid update request', async () => {
+      const res = await request.patch(url)
+        .set({ 'Authorization': token.adminRecruiter1 })
+        .send({ createdAt: new Date() })
+
+      expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
+      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message.search(/Invalid update request/i)).not.toBe(-1);
+    })
+
+    // it('can not use if not admin recruiter', async () => {
+    //   const res = await request.patch(url)
+    //     .set({ 'Authorization': token.recruiter1 })
+    //     .send(payload)
+    //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
+    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
+    // })
+
+    it('can not use if not recruiter', async () => {
+      const res = await request.patch(url)
+        .set({ 'Authorization': token.candidate1 })
+        .send(payload)
+
+      expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
+      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
+    })
+
+    it('can not use if not logged in', async () => {
+      const res = await request.patch(url)
+        .send(payload)
+
+      expect(ajv.validate(NotLoggedInSchema, res.body)).toBe(true);
+    })
+
+  })
+
+
 
 })
