@@ -72,7 +72,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
     //     .set({ 'Authorization': token.candidate1 })
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
@@ -118,7 +118,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
         .send({ codeId: 91, mobile: '9876543210' })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/This mobile already exists for this profile/i)).not.toBe(-1);
     })
 
@@ -128,7 +128,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
         .send({ ...payload, isPrimary: "true" })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/isPrimary should be a boolean value/i)).not.toBe(-1);
     })
 
@@ -138,7 +138,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
         .send({ ...payload, mobileNo: payload.mobile })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Invalid payload request/i)).not.toBe(-1);
     })
 
@@ -148,7 +148,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
     //     .send(payload)
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
@@ -158,7 +158,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
         .send({ codeId: payload.codeId })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Please provide necessary details/i)).not.toBe(-1);
     })
 
@@ -198,7 +198,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
         .send(payload)
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Mobile Record not found/i)).not.toBe(-1);
     })
 
@@ -208,7 +208,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
         .send({ createdAt: new Date() })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Invalid update request/i)).not.toBe(-1);
     })
 
@@ -218,7 +218,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
         .send({ mobile: '9876543210' })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/This mobile already exists for this profile/i)).not.toBe(-1);
     })
 
@@ -228,7 +228,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
     //     .send({ createdAt: new Date() })
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
@@ -238,7 +238,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
     //     .send({ createdAt: new Date() })
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
@@ -248,7 +248,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
     //     .send(payload)
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
@@ -308,7 +308,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
         .set({ 'Authorization': token.adminRecruiter1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Mobile Record not found/i)).not.toBe(-1);
     })
 
@@ -317,7 +317,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
     //     .set({ 'Authorization': token.recruiter1 })
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
 
     // })

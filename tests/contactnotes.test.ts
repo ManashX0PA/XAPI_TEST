@@ -50,7 +50,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .set({ 'Authorization': token.candidate1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     })
 
@@ -91,7 +91,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
       const res = await request.get(url + `?limit=27`)
         .set({ 'Authorization': token.adminRecruiter1 })
       expect(ajv.validate(ErrorSchema, res.body)).not.toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect([200, 201].includes(res.status)).toBe(true);
     })
 
@@ -99,7 +99,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
       const res = await request.get(url + `?offset=5`)
         .set({ 'Authorization': token.adminRecruiter1 })
       expect(ajv.validate(ErrorSchema, res.body)).not.toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect([200, 201].includes(res.status)).toBe(true);
     })
 
@@ -107,7 +107,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
       const res = await request.get(url + `?sort=updated_at:desc`)
         .set({ 'Authorization': token.adminRecruiter1 })
       expect(ajv.validate(ErrorSchema, res.body)).not.toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect([200, 201].includes(res.status)).toBe(true);
     })
 
@@ -115,7 +115,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
       const res = await request.get(url + `?sort=created_at`)
         .set({ 'Authorization': token.adminRecruiter1 })
       expect(ajv.validate(ErrorSchema, res.body)).not.toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect([200, 201].includes(res.status)).toBe(true);
     })
 
@@ -125,7 +125,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .set({ 'Authorization': token.candidate1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     })
 
@@ -133,42 +133,42 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
       const res = await request.get(url + `?limit=1to100`)
         .set({ 'Authorization': token.adminRecruiter1 })
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
     })
 
     it('offset is not a number', async () => {
       const res = await request.get(url + `?offset=1to100`)
         .set({ 'Authorization': token.adminRecruiter1 })
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
     })
 
     it('limit is less than 0', async () => {
       const res = await request.get(url + `?limit=-1`)
         .set({ 'Authorization': token.adminRecruiter1 })
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
     })
 
     it('limit is more than 100', async () => {
       const res = await request.get(url + `?limit=101`)
         .set({ 'Authorization': token.adminRecruiter1 })
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
     })
 
     it('invalid sort request', async () => {
       const res = await request.get(url + `?sort=description:asc`)
         .set({ 'Authorization': token.adminRecruiter1 })
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
     })
 
     it('invalid sort type request', async () => {
       const res = await request.get(url + `?sort=updated_at:ascending`)
         .set({ 'Authorization': token.adminRecruiter1 })
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
     })
 
     it('can not use if not logged in', async () => {
@@ -198,7 +198,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .set({ 'Authorization': token.candidate1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     })
 
@@ -238,7 +238,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .send(payload)
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Contact not found/i)).not.toBe(-1);
     })
 
@@ -248,7 +248,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .send({ ...payload, content: payload.notesData })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Invalid payload request/i)).not.toBe(-1);
     })
 
@@ -258,7 +258,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .send(payload)
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     })
 
@@ -268,7 +268,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .send()
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Please provide necessary details/i)).not.toBe(-1);
     })
 
@@ -315,7 +315,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .send(payload)
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Contact Note not found/i)).not.toBe(-1);
     })
 
@@ -325,7 +325,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .send({ notesData: payload.notesData, createdAt: new Date() })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Invalid update request/i)).not.toBe(-1);
     })
 
@@ -335,7 +335,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .send(payload)
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     })
 
@@ -408,7 +408,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .set({ 'Authorization': token.adminRecruiter1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Contact Note not found/i)).not.toBe(-1);
     })
 
@@ -417,7 +417,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
         .set({ 'Authorization': token.recruiter1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
 
     })

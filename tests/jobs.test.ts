@@ -96,7 +96,7 @@ describe.only('TESTING "jobs.js" CONTROLLER', () => {
         .set({ 'Authorization': token.adminRecruiter1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/inactivityPeriod param is invalid/i)).not.toBe(-1);
     })
 
@@ -105,7 +105,7 @@ describe.only('TESTING "jobs.js" CONTROLLER', () => {
         .set({ 'Authorization': token.adminRecruiter1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/view param is invalid/i)).not.toBe(-1);
     })
 
@@ -114,7 +114,7 @@ describe.only('TESTING "jobs.js" CONTROLLER', () => {
         .set({ 'Authorization': token.candidate1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     })
 
@@ -123,7 +123,7 @@ describe.only('TESTING "jobs.js" CONTROLLER', () => {
     //     .set({ 'Authorization': token.adminRecruiter1 })
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/view param is invalid because this value is only applicable to admins/i)).not.toBe(-1);
     // })
 

@@ -62,7 +62,7 @@ describe.only('TESTING "leads.js" CONTROLLER', () => {
         .set({ 'Authorization': token.candidate1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     })
 

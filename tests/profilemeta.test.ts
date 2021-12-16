@@ -51,7 +51,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
     //     .set({ 'Authorization': token.candidate1 })
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
@@ -97,7 +97,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
         .send({ metaKey: 'Aniversary Date', metaValue: 'April 1st' })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/This metaKey already exists for this profile/i)).not.toBe(-1);
     })
 
@@ -107,7 +107,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
         .send({ ...payload, profileName: payload.metaKey })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Invalid payload request/i)).not.toBe(-1);
     })
 
@@ -117,7 +117,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
     //     .send(payload)
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
@@ -127,7 +127,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
         .send({ metaValue: payload.metaValue })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Please provide necessary details/i)).not.toBe(-1);
     })
 
@@ -167,7 +167,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
         .send(payload)
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Profile meta record not found/i)).not.toBe(-1);
     })
 
@@ -177,7 +177,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
         .send({ createdAt: new Date() })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Invalid update request/i)).not.toBe(-1);
     })
 
@@ -187,7 +187,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
         .send({ metaKey: 'Aniversary Date', metaValue: payload.metaValue })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Another metaKey with this name already exists for this profile/i)).not.toBe(-1);
     })
 
@@ -197,7 +197,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
     //     .send({ createdAt: new Date() })
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
@@ -207,7 +207,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
     //     .send({ createdAt: new Date() })
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
@@ -217,7 +217,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
     //     .send(payload)
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
@@ -277,7 +277,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
         .set({ 'Authorization': token.adminRecruiter1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
+      expect(res.body.message).not.toBe('Error occurred while processing');
       expect(res.body.message.search(/Profile meta record not found/i)).not.toBe(-1);
     })
 
@@ -286,7 +286,7 @@ describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
     //     .set({ 'Authorization': token.recruiter1 })
 
     //   expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-    //   expect(res.body.message).not.toBe('Invalid');
+    //   expect(res.body.message).not.toBe('Error occurred while processing');
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
 
     // })
