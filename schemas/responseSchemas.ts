@@ -49,3 +49,19 @@ export const PersonMobileSchema = {
   required: ["personMobId", "profileId", "mobile"],
   additionalProperties: true,
 }
+
+export const ProfileMetaSchema = {
+  type: "object",
+  properties: {
+    profileMetaId: { type: "string" },
+    profileId: { type: "string" },
+    profileMeta: { type: "string" },
+    createdAt: { type: "string" },
+    updatedAt: { type: "string" },
+    metaKey: { type: "string" },
+    metaValue: { type: "string" },
+    displayKey: { type: "string" },
+  },
+  required: ["profileMetaId", "profileId", "profileMeta", "displayKey", "metaKey", "metaValue"],
+  additionalProperties: true,
+}

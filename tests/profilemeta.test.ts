@@ -1,9 +1,10 @@
 import jest from 'jest';
 import supertest from 'supertest';
 import Ajv from 'ajv';
+import randomStr from 'randomstring';
 
 import { deleteAPIData, getLoginToken, getRandomCompany, getRandomEmail, getRndInteger, patchAPIData, postAPIData, randomNumber } from '../helpers/helper';
-import { CallTemplateSchema, ErrorSchema, NotLoggedInSchema, PersonMobileSchema } from '../schemas/responseSchemas';
+import { CallTemplateSchema, ErrorSchema, NotLoggedInSchema, PersonMobileSchema, ProfileMetaSchema } from '../schemas/responseSchemas';
 
 import { request } from '../helpers/helper';
 const ajv = new Ajv({ strict: false })
@@ -18,52 +19,30 @@ const Data = LoginCreds.data;
 
 
 
-describe.skip('TESTING "personmobile.js" CONTROLLER', () => {
+describe.skip('TESTING "profilemeta.js" CONTROLLER', () => {
 
 
-  describe('Get All Person Mobile Records API', () => {
-    const rootUrl = `/personmobile/all`;
+  describe('Get All Profile Meta Records API', () => {
+    const rootUrl = `/profilemeta/all`;
     const url = rootUrl + `/${Data.profileId}`;
     // positive testings
-    it('get all person mobile records', async () => {
+    it('get all profile meta records', async () => {
       const res = await request.get(url)
         .set({ 'Authorization': token.adminRecruiter1 })
-
+      
       const schema = {
         type: "object",
         properties: {
-          count: { type: "string" },
-          personMobiles: {
+          profileMeta: {
             type: "array",
-            items: PersonMobileSchema,
+            items: ProfileMetaSchema,
           },
         },
-        required: ["personMobiles"],
+        required: ["profileMeta"],
         additionalProperties: false
       }
       expect([200, 201].includes(res.status)).toBe(true);
       expect(ajv.validate(schema, res.body)).toBe(true);
-    })
-
-    it('primary mobile always on top', async () => {
-      const res = await request.get(url)
-        .set({ 'Authorization': token.adminRecruiter1 })
-
-      const schema = {
-        type: "object",
-        properties: {
-          count: { type: "string" },
-          personMobiles: {
-            type: "array",
-            items: PersonMobileSchema,
-          },
-        },
-        required: ["personMobiles"],
-        additionalProperties: false
-      }
-      expect([200, 201].includes(res.status)).toBe(true);
-      expect(ajv.validate(schema, res.body)).toBe(true);
-      expect(res.body.personMobiles[0].isPrimary).toBe(true);
     })
 
     // negative testing
@@ -85,57 +64,47 @@ describe.skip('TESTING "personmobile.js" CONTROLLER', () => {
 
 
 
-  describe('Create Person Mobile Record API', () => {
-    const rootUrl = `/personmobile`;
+  describe('Create Profile Meta Record API', () => {
+    const rootUrl = `/profilemeta`;
     const url = rootUrl + `/${Data.profileId}`;
 
-    let payload: { codeId: number, mobile: string };
+    let payload: { metaKey: string, metaValue: string };
     beforeEach(() => {
       payload = {
-        codeId: 91,
-        mobile: String(getRndInteger(1000000000, 9999999999)),
+        metaKey: randomStr.generate(5),
+        metaValue: randomStr.generate(5),
       }
     })
 
     // positive testings
-    it('create person mobile record', async () => {
+    it('create profile meta record', async () => {
       const res = await request.post(url)
         .set({ 'Authorization': token.adminRecruiter1 })
         .send(payload)
 
       expect([200, 201].includes(res.status)).toBe(true);
-      expect(ajv.validate(PersonMobileSchema, res.body)).toBe(true);
+      expect(ajv.validate(ProfileMetaSchema, res.body)).toBe(true);
 
       // delete this new record
-      await request.delete(rootUrl + `/${res.body.personMobId}`)
+      const finalRes = await request.delete(rootUrl + `/${res.body.profileMetaId}`)
         .set({ 'Authorization': token.adminRecruiter1 })
     })
 
     // negative testing
-    it('same mobile already exists for this profile', async () => {
+    it('same meteKey already exists for this profile', async () => {
       const res = await request.post(url)
         .set({ 'Authorization': token.adminRecruiter1 })
-        .send({ codeId: 91, mobile: '9876543210' })
+        .send({ metaKey: 'Aniversary Date', metaValue: 'April 1st' })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
       expect(res.body.message).not.toBe('Invalid');
-      expect(res.body.message.search(/This mobile already exists for this profile/i)).not.toBe(-1);
-    })
-
-    it('isPrimary should be a boolean', async () => {
-      const res = await request.post(url)
-        .set({ 'Authorization': token.adminRecruiter1 })
-        .send({ ...payload, isPrimary: "true" })
-
-      expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
-      expect(res.body.message).not.toBe('Invalid');
-      expect(res.body.message.search(/isPrimary should be a boolean value/i)).not.toBe(-1);
+      expect(res.body.message.search(/This metaKey already exists for this profile/i)).not.toBe(-1);
     })
 
     it('invalid payload', async () => {
       const res = await request.post(url)
         .set({ 'Authorization': token.adminRecruiter1 })
-        .send({ ...payload, mobileNo: payload.mobile })
+        .send({ ...payload, profileName: payload.metaKey })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
       expect(res.body.message).not.toBe('Invalid');
@@ -152,10 +121,10 @@ describe.skip('TESTING "personmobile.js" CONTROLLER', () => {
     //   expect(res.body.message.search(/You are not authorized/i)).not.toBe(-1);
     // })
 
-    it('codeId or mobile does not exist', async () => {
+    it('metaKey or metaValue does not exist', async () => {
       const res = await request.post(url)
         .set({ 'Authorization': token.adminRecruiter1 })
-        .send({ codeId: payload.codeId })
+        .send({ metaValue: payload.metaValue })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
       expect(res.body.message).not.toBe('Invalid');
@@ -173,33 +142,33 @@ describe.skip('TESTING "personmobile.js" CONTROLLER', () => {
 
 
 
-  describe('Update Person Mobile Record API', () => {
-    const rootUrl = `/personmobile`;
-    const url = rootUrl + `/${Data.personMobId}`;
+  describe('Update Profile Meta Record API', () => {
+    const rootUrl = `/profilemeta`;
+    const url = rootUrl + `/${Data.profileMetaId}`;
 
     const payload = {
-      codeId: 91,
+      metaValue: randomStr.generate(5),
     };
 
     // positive testings
-    it('update person mobile record', async () => {
+    it('update profile meta record', async () => {
       const res = await request.patch(url)
         .set({ 'Authorization': token.adminRecruiter1 })
         .send(payload)
 
       expect([200, 201].includes(res.status)).toBe(true);
-      expect(ajv.validate(PersonMobileSchema, res.body)).toBe(true);
+      expect(ajv.validate(ProfileMetaSchema, res.body)).toBe(true);
     })
 
     // negative testing
-    it('mobile record does not exist', async () => {
+    it('profile meta record does not exist', async () => {
       const res = await request.patch(rootUrl + `/27000`)
         .set({ 'Authorization': token.adminRecruiter1 })
         .send(payload)
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
       expect(res.body.message).not.toBe('Invalid');
-      expect(res.body.message.search(/Mobile Record not found/i)).not.toBe(-1);
+      expect(res.body.message.search(/Profile meta record not found/i)).not.toBe(-1);
     })
 
     it('invalid update request', async () => {
@@ -212,14 +181,14 @@ describe.skip('TESTING "personmobile.js" CONTROLLER', () => {
       expect(res.body.message.search(/Invalid update request/i)).not.toBe(-1);
     })
 
-    it('same mobile already exists for this profile', async () => {
+    it('same metaKey already exists for this profile', async () => {
       const res = await request.patch(url)
         .set({ 'Authorization': token.adminRecruiter1 })
-        .send({ mobile: '9876543210' })
+        .send({ metaKey: 'Aniversary Date', metaValue: payload.metaValue })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
       expect(res.body.message).not.toBe('Invalid');
-      expect(res.body.message.search(/This mobile already exists for this profile/i)).not.toBe(-1);
+      expect(res.body.message.search(/Another metaKey with this name already exists for this profile/i)).not.toBe(-1);
     })
 
     // it('if candidate and it is not his/her profile', async () => {
@@ -263,20 +232,20 @@ describe.skip('TESTING "personmobile.js" CONTROLLER', () => {
 
 
 
-  describe('Delete Person Mobile Record API', () => {
-    const rootUrl = `/personmobile`;
-    let personMobId;
+  describe('Delete Profile Meta Record API', () => {
+    const rootUrl = `/profilemeta`;
+    let profileMetaId;
     let url: string;
 
     beforeEach(async () => {
       const payload = {
-        codeId: 91,
-        mobile: String(getRndInteger(1000000000, 9999999999)),
+        metaKey: randomStr.generate(5),
+        metaValue: randomStr.generate(5),
       };
 
       const createdNewRecord = await postAPIData(request, token.adminRecruiter1, rootUrl + `/${Data.profileId}`, payload)
-      personMobId = createdNewRecord.personMobId;
-      url = rootUrl + `/${personMobId}`;
+      profileMetaId = createdNewRecord.profileMetaId;
+      url = rootUrl + `/${profileMetaId}`;
     })
 
     afterEach(async () => {
@@ -286,7 +255,7 @@ describe.skip('TESTING "personmobile.js" CONTROLLER', () => {
     })
 
     // positive testings
-    it('delete person mobile record', async () => {
+    it('delete profilemeta record', async () => {
       const res = await request.delete(url)
         .set({ 'Authorization': token.adminRecruiter1 })
 
@@ -303,13 +272,13 @@ describe.skip('TESTING "personmobile.js" CONTROLLER', () => {
     })
 
     // negative testing
-    it('mobile record does not exist', async () => {
+    it('profile meta record does not exist', async () => {
       const res = await request.delete(rootUrl + `/27000`)
         .set({ 'Authorization': token.adminRecruiter1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
       expect(res.body.message).not.toBe('Invalid');
-      expect(res.body.message.search(/Mobile Record not found/i)).not.toBe(-1);
+      expect(res.body.message.search(/Profile meta record not found/i)).not.toBe(-1);
     })
 
     // it('can not use if not recruiter or candidate', async () => {
