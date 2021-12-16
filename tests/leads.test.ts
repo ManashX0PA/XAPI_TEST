@@ -19,55 +19,41 @@ const Data = LoginCreds.data;
 
 
 
-describe.skip('TESTING "cvofeedbackpending.js" CONTROLLER', () => {
+describe.skip('TESTING "leads.js" CONTROLLER', () => {
 
 
-  describe('Get All CVO Feedback Pending Records API', () => {
-    const url = `/jobs/d/cvo-feedback-pending`;
+  describe('Get All Leads Follow Up Of Today API', () => {
+    const url = `/leads/l/all-follow-up-today`;
     // positive testings
-    it('get all cvo feedback pending records', async () => {
+    it('get all leads follow up of today', async () => {
       const res = await request.get(url)
         .set({ 'Authorization': token.adminRecruiter1 })
 
       const headers = [
         {
-          key: "appId",
-          header: "App ID"
-        },
-        {
-          key: "candidateName",
-          header: "Candidate"
-        },
-        {
-          key: "candidateEmail",
-          header: "Candidate Email"
+          key: "leadName",
+          header: "Lead Name"
         },
         {
           key: "companyName",
           header: "Company Name"
         },
         {
-          key: "recruiterName",
-          header: "Recruiter"
+          key: "dmName",
+          header: "DM"
+        },
+        {
+          key: "status",
+          header: "Status"
+        },
+        {
+          key: "createdAt",
+          header: "Created Date"
         }
       ]
-      const schema = {
-        type: "object",
-        properties: {
-          id: { type: "string" },
-          recruiterName: { type: "string" },
-          jobName: { type: "string" },
-          companyName: { type: "string" },
-          candidateName: { type: "string" },
-          candidateEmail: { type: "string" },
-        },
-        required: ["id", "recruiterName", "jobName", "companyName", "candidateName", "candidateEmail"],
-        additionalProperties: true,
-      }
       expect([200, 201].includes(res.status)).toBe(true);
       expect(ajv.validate(XapiDynamicResponseSchema, res.body)).toBe(true);
       expect(res.body.headers).toEqual(headers);
-      expect(ajv.validate(schema, res.body.rows[0])).toBe(true);
     })
 
     // negative testing
