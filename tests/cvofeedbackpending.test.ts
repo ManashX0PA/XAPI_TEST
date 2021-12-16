@@ -55,13 +55,14 @@ describe.skip('TESTING "cvofeedbackpending.js" CONTROLLER', () => {
         type: "object",
         properties: {
           id: { type: "string" },
+          appId: { type: "string" },
           recruiterName: { type: "string" },
           jobName: { type: "string" },
           companyName: { type: "string" },
           candidateName: { type: "string" },
           candidateEmail: { type: "string" },
         },
-        required: ["id", "recruiterName", "jobName", "companyName", "candidateName", "candidateEmail"],
+        required: ["id", "appId", "recruiterName", "jobName", "companyName", "candidateName", "candidateEmail"],
         additionalProperties: true,
       }
       expect([200, 201].includes(res.status)).toBe(true);
