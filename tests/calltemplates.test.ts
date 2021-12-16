@@ -18,7 +18,7 @@ const Data = LoginCreds.data;
 
 
 
-describe.skip('TESTING "calltemplates.js" CONTROLLER', () => {
+describe.only('TESTING "calltemplates.js" CONTROLLER', () => {
 
 
   describe('Get All Call Templates API', () => {

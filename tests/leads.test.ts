@@ -19,7 +19,7 @@ const Data = LoginCreds.data;
 
 
 
-describe.skip('TESTING "leads.js" CONTROLLER', () => {
+describe.only('TESTING "leads.js" CONTROLLER', () => {
 
 
   describe('Get All Leads Follow Up Of Today API', () => {

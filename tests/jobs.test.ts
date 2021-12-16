@@ -19,7 +19,7 @@ const Data = LoginCreds.data;
 
 
 
-describe.skip('TESTING "jobs.js" CONTROLLER', () => {
+describe.only('TESTING "jobs.js" CONTROLLER', () => {
 
 
   describe('Get All Inactive Jobs API', () => {
@@ -69,7 +69,7 @@ describe.skip('TESTING "jobs.js" CONTROLLER', () => {
       expect(res.body.headers).toEqual(headers);
       expect(ajv.validate(schema, res.body.rows[0])).toBe(true);
     })
-    
+
     it('inactivityPeriod param works', async () => {
       const res = await request.get(url + `?inactivityPeriod=7`)
         .set({ 'Authorization': token.adminRecruiter1 })
@@ -79,7 +79,7 @@ describe.skip('TESTING "jobs.js" CONTROLLER', () => {
       expect(res.body.headers).toEqual(headers);
       expect(ajv.validate(schema, res.body.rows[0])).toBe(true);
     })
-    
+
     it('view param works', async () => {
       const res = await request.get(url + `?view=mine`)
         .set({ 'Authorization': token.adminRecruiter1 })

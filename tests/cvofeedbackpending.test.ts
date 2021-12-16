@@ -19,7 +19,7 @@ const Data = LoginCreds.data;
 
 
 
-describe.skip('TESTING "cvofeedbackpending.js" CONTROLLER', () => {
+describe.only('TESTING "cvofeedbackpending.js" CONTROLLER', () => {
 
 
   describe('Get All CVO Feedback Pending Records API', () => {

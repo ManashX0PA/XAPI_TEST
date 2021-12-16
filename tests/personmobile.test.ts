@@ -18,7 +18,7 @@ const Data = LoginCreds.data;
 
 
 
-describe.skip('TESTING "personmobile.js" CONTROLLER', () => {
+describe.only('TESTING "personmobile.js" CONTROLLER', () => {
 
 
   describe('Get All Person Mobile Records API', () => {

@@ -19,7 +19,7 @@ const Data = LoginCreds.data;
 
 
 
-describe.skip('TESTING "profilemeta.js" CONTROLLER', () => {
+describe.only('TESTING "profilemeta.js" CONTROLLER', () => {
 
 
   describe('Get All Profile Meta Records API', () => {
@@ -29,7 +29,7 @@ describe.skip('TESTING "profilemeta.js" CONTROLLER', () => {
     it('get all profile meta records', async () => {
       const res = await request.get(url)
         .set({ 'Authorization': token.adminRecruiter1 })
-      
+
       const schema = {
         type: "object",
         properties: {
