@@ -65,3 +65,22 @@ export const ProfileMetaSchema = {
   required: ["profileMetaId", "profileId", "profileMeta", "displayKey", "metaKey", "metaValue"],
   additionalProperties: true,
 }
+
+export const XapiDynamicResponseSchema = {
+  type: "object",
+  properties: {
+    headers: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          key: { type: "string" },
+          header: { type: "string" },
+        }
+      }
+    },
+    rows: { type: "array" },
+  },
+  required: ["headers", "rows"],
+  additionalProperties: false,
+}
