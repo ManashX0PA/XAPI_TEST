@@ -84,3 +84,36 @@ export const XapiDynamicResponseSchema = {
   required: ["headers", "rows"],
   additionalProperties: false,
 }
+
+export const ContactNoteSchema = {
+  type: "object",
+  properties: {
+    noteId: { type: "string" },
+    noteUuid: { type: "string" },
+    companyId: { type: "string" },
+    contactId: { type: "string" },
+    notesData: { type: "string" },
+    createdBy: { type: "string" },
+    modifiedBy: { type: "string" },
+    createdAt: { type: "string" },
+    updatedAt: { type: "string" },
+  },
+  required: ["noteId", "noteUuid", "companyId", "contactId", "notesData"],
+  additionalProperties: true,
+}
+
+export const ContactNoteLogSchema = {
+  type: "object",
+  properties: {
+    logId: { type: "string" },
+    noteId: { type: "string" },
+    performedById: { type: "string" },
+    performedByCompanyId: { type: "string" },
+    actionType: { type: "string" },
+    logText: { type: "string" },
+    logDescription: { type: "string" },
+    createdAt: { type: "string" },
+  },
+  required: ["logId", "noteId", "performedById", "performedByCompanyId", "actionType", "logText", "logDescription", "createdAt"],
+  additionalProperties: true,
+}
