@@ -179,6 +179,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
 
     const payload = {
       codeId: 91,
+      mobile: '0192837465',
     };
 
     // positive testings
@@ -215,7 +216,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
     it('same mobile already exists for this profile', async () => {
       const res = await request.patch(url)
         .set({ 'Authorization': token.adminRecruiter1 })
-        .send({ mobile: '9876543210' })
+        .send({ codeId: 91, mobile: '9876543210' })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);
       expect(res.body.message).not.toBe('Error occurred while processing');
