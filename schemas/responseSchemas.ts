@@ -98,6 +98,7 @@ export const ContactNoteSchema = {
     notesData: { type: "string" },
     createdBy: { type: "string" },
     modifiedBy: { type: "string" },
+    isDeleted: { type: "boolean" },
     createdAt: { type: "string" },
     updatedAt: { type: "string" },
   },

@@ -43,6 +43,7 @@ describe.only('TESTING "personmobile.js" CONTROLLER', () => {
       }
       expect([200, 201].includes(res.status)).toBe(true);
       expect(ajv.validate(schema, res.body)).toBe(true);
+      expect(res.body.personMobiles.every((item: any) => item.isDeleted)).toBe(false);
     })
 
     it('primary mobile always on top', async () => {

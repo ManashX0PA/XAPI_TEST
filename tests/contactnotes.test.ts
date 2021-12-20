@@ -29,6 +29,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
       const res = await request.get(url)
         .set({ 'Authorization': token.adminRecruiter1 })
 
+      console.log(res.body);
       const schema = {
         type: "object",
         properties: {
