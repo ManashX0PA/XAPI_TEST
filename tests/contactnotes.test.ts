@@ -86,6 +86,8 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
       }
       expect([200, 201].includes(res.status)).toBe(true);
       expect(ajv.validate(schema, res.body)).toBe(true);
+      expect(res.body.contactNotes.every((item:any)=> item.isDeleted)).toBe(false);
+      expect(res.body.contactNotes.every((item:any)=> item.isPrivate)).toBe(false);
     })
 
     it('limit param working', async () => {

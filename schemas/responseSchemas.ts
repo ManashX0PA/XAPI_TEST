@@ -99,11 +99,12 @@ export const ContactNoteSchema = {
     createdBy: { type: "string" },
     modifiedBy: { type: "string" },
     isDeleted: { type: "boolean" },
+    isPrivate: { type: "boolean" },
     createdAt: { type: "string" },
     updatedAt: { type: "string" },
   },
   required: ["noteId", "noteUuid", "companyId", "contactId", "notesData"],
-  additionalProperties: true,
+  additionalProperties: false,
 }
 
 export const ContactNoteLogSchema = {
