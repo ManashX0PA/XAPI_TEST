@@ -38,6 +38,9 @@ export const CallTemplateSchema = {
 export const PersonMobileSchema = {
   type: "object",
   properties: {
+    countryShort: { type: "string" },
+    countryName: { type: "string" },
+    countryCode: { type: "string" },
     personMobId: { type: "string" },
     profileId: { type: "string" },
     codeId: { type: "number" },
