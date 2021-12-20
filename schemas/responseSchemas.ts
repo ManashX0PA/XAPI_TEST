@@ -96,15 +96,17 @@ export const ContactNoteSchema = {
     companyId: { type: "string" },
     contactId: { type: "string" },
     notesData: { type: "string" },
+    contactNoteType: { type: ["string", "null"] },
     createdBy: { type: "string" },
     modifiedBy: { type: "string" },
     isDeleted: { type: "boolean" },
     isPrivate: { type: "boolean" },
     createdAt: { type: "string" },
     updatedAt: { type: "string" },
+    deletedAt: { type: ["string", "null"] },
   },
   required: ["noteId", "noteUuid", "companyId", "contactId", "notesData"],
-  additionalProperties: false,
+  additionalProperties: true,
 }
 
 export const ContactNoteLogSchema = {
