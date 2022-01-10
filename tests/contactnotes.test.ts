@@ -29,7 +29,6 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
       const res = await request.get(url)
         .set({ 'Authorization': token.adminRecruiter1 })
 
-      console.log(res.body);
       const schema = {
         type: "object",
         properties: {
@@ -86,8 +85,8 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
       }
       expect([200, 201].includes(res.status)).toBe(true);
       expect(ajv.validate(schema, res.body)).toBe(true);
-      expect(res.body.contactNotes.every((item:any)=> item.isDeleted)).toBe(false);
-      expect(res.body.contactNotes.every((item:any)=> item.isPrivate)).toBe(false);
+      expect(res.body.contactNotes.every((item: any) => item.isDeleted)).toBe(false);
+      expect(res.body.contactNotes.every((item: any) => item.isPrivate)).toBe(false);
     })
 
     it('limit param working', async () => {
@@ -185,7 +184,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
 
   describe('Get Contact Note Details API', () => {
     const rootUrl = `/contactnotes`;
-    const url = rootUrl + `/${Data.contactNoteId}`;
+    const url = rootUrl + `/${Data.contactNoteUuid}`;
     // positive testings
     it('get contact note details', async () => {
       const res = await request.get(url)
@@ -288,7 +287,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
 
   describe('Update Contact Note API', () => {
     const rootUrl = `/contactnotes`;
-    const url = rootUrl + `/${Data.contactNoteId}`;
+    const url = rootUrl + `/${Data.contactNoteUuid}`;
 
     const payload = { notesData: "We have an appointment at 4:00 GMT" };
 
@@ -313,7 +312,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
 
     // negative testing
     it('contact note record does not exist', async () => {
-      const res = await request.patch(rootUrl + `/27000`)
+      const res = await request.patch(rootUrl + `/5232174b-0997-438e-b20e-3d349505208c`)
         .set({ 'Authorization': token.adminRecruiter1 })
         .send(payload)
 
@@ -355,15 +354,15 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
 
   describe('Delete Contact Note API', () => {
     const rootUrl = `/contactnotes`;
-    let contactNoteId;
+    let contactNoteUuid;
     let url: string;
 
     const payload = { notesData: "We have an appointment at 4:00 GMT" };
     beforeEach(async () => {
 
       const createdNewRecord = await postAPIData(request, token.adminRecruiter1, rootUrl + `/${Data.contactId}`, payload)
-      contactNoteId = createdNewRecord.noteId;
-      url = rootUrl + `/${contactNoteId}`;
+      contactNoteUuid = createdNewRecord.noteUuid;
+      url = rootUrl + `/${contactNoteUuid}`;
     })
 
     afterEach(async () => {
@@ -407,7 +406,7 @@ describe.only('TESTING "contactnotes.js" CONTROLLER', () => {
 
     // negative testing
     it('contact note record does not exist', async () => {
-      const res = await request.delete(rootUrl + `/27000`)
+      const res = await request.delete(rootUrl + `/5232174b-0997-438e-b20e-3d349505208ac`)
         .set({ 'Authorization': token.adminRecruiter1 })
 
       expect(ajv.validate(ErrorSchema, res.body)).toBe(true);

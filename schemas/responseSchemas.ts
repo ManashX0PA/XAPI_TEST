@@ -113,7 +113,7 @@ export const ContactNoteLogSchema = {
   type: "object",
   properties: {
     logId: { type: "string" },
-    noteId: { type: "string" },
+    contactId: { type: "string" },
     performedById: { type: "string" },
     performedByCompanyId: { type: "string" },
     actionType: { type: "string" },
@@ -121,6 +121,6 @@ export const ContactNoteLogSchema = {
     logDescription: { type: "string" },
     createdAt: { type: "string" },
   },
-  required: ["logId", "noteId", "performedById", "performedByCompanyId", "actionType", "logText", "logDescription", "createdAt"],
+  required: ["logId", "contactId", "performedById", "performedByCompanyId", "actionType", "logText", "logDescription", "createdAt"],
   additionalProperties: true,
 }
